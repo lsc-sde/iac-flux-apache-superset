@@ -17,7 +17,7 @@ ingress:
     nginx.ingress.kubernetes.io/ssl-redirect : "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect : "true"
     nginx.ingress.kubernetes.io/proxy-body-size: 64m
-    xlscsde.nhs.uk/dns-record: jupyter${environment_dns_suffix}
+    xlscsde.nhs.uk/dns-record: superset${environment_dns_suffix}
   tls:
   - hosts:
     - ${environment_dns_prefix}superset${environment_dns_suffix}.${private_dnz_zone}
