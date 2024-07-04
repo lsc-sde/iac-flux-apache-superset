@@ -1,0 +1,11 @@
+postgresql:
+  postgresqlPassword: "R3s3tM3N0w!"
+
+configOverrides:
+  secret: |
+    SECRET_KEY = 'mz6BCsrYnGgJ5zM7S+zZRtXS32JaFFddiYZ2h16neuK3WSMxIqe5j5EC'
+
+image:
+  repository: lscsde/apache-superset
+  tag: 0.1.2
+  imagePullPolicy: Always
