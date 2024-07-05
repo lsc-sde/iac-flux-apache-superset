@@ -10,6 +10,10 @@ image:
   tag: 0.1.2
   imagePullPolicy: Always
 
+bootstrapScript: |
+  #!/bin/bash
+  pip install --upgrade "apache-superset[databricks]"
+
 ingress:
   enabled: true
   ingressClassName: nginx
