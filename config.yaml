@@ -37,12 +37,7 @@ configOverrides:
           'remote_app': {
               'client_id': '${superset_client_id}',
               'client_secret': os.getenv("SDE_CLIENT_SECRET"),
-              'api_base_url': 'https://graph.microsoft.com/',
-              'client_kwargs': {
-                  'scope': 'openid email profile'
-              },
-              'authorize_url': 'https://login.microsoftonline.com/${azure_tenant_id}/oauth2/v2.0/authorize',
-              'access_token_url': 'https://login.microsoftonline.com/${azure_tenant_id}/oauth2/v2.0/token'
+              'server_metadata_url': 'https://login.microsoftonline.com/${azure_tenant_id}/v2.0/.well-known/openid-configuration'
           }
       }
     ]
