@@ -1,10 +1,6 @@
 postgresql:
   postgresqlPassword: "R3s3tM3N0w!"
 
-configOverrides:
-  secret: |
-    SECRET_KEY = 'mz6BCsrYnGgJ5zM7S+zZRtXS32JaFFddiYZ2h16neuK3WSMxIqe5j5EC'
-
 image:
   repository: lscsde/apache-superset
   tag: 0.1.2
@@ -13,6 +9,43 @@ image:
 bootstrapScript: |
   #!/bin/bash
   pip install --upgrade "apache-superset[databricks]"
+  pip install --upgrade authlib
+
+extraEnvRaw:
+  - name: SDE_CLIENT_SECRET
+    valueFrom: 
+      secretKeyRef:
+        name: superset-auth
+        key: CLIENT_SECRET
+
+
+configOverrides:
+  secret: |
+    SECRET_KEY = 'mz6BCsrYnGgJ5zM7S+zZRtXS32JaFFddiYZ2h16neuK3WSMxIqe5j5EC'
+  
+  enable_oauth: |
+    # This will make sure the redirect_uri is properly computed, even with SSL offloading
+    ENABLE_PROXY_FIX = True
+
+    from flask_appbuilder.security.manager import AUTH_OAUTH
+    AUTH_TYPE = AUTH_OAUTH
+    OAUTH_PROVIDERS = [
+      {
+          'name': 'SSO',
+          'icon': 'fa-user',
+          'token_key': 'access_token',
+          'remote_app': {
+              'client_id': '${superset_client_id}',
+              'client_secret': os.getenv("SDE_CLIENT_SECRET"),
+              'api_base_url': 'https://graph.microsoft.com/',
+              'client_kwargs': {
+                  'scope': 'openid email profile'
+              },
+              'authorize_url': 'https://login.microsoftonline.com/${azure_tenant_id}/oauth2/v2.0/authorize',
+              'access_token_url': 'https://login.microsoftonline.com/${azure_tenant_id}/oauth2/v2.0/token'
+          }
+      }
+    ]
 
 ingress:
   enabled: true
