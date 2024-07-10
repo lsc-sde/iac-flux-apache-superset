@@ -40,7 +40,8 @@ configOverrides:
               'server_metadata_url': 'https://login.microsoftonline.com/${azure_tenant_id}/v2.0/.well-known/openid-configuration',
               'client_kwargs': {
                   'scope': 'openid email profile'
-              },          }
+              }
+          }
       }
     ]
 
