@@ -31,17 +31,17 @@ configOverrides:
     AUTH_TYPE = AUTH_OAUTH
     OAUTH_PROVIDERS = [
       {
-          'name': 'SSO',
-          'icon': 'fa-user',
-          'token_key': 'access_token',
-          'remote_app': {
-              'client_id': '${superset_client_id}',
-              'client_secret': os.getenv("SDE_CLIENT_SECRET"),
-              'server_metadata_url': 'https://login.microsoftonline.com/${azure_tenant_id}/v2.0/.well-known/openid-configuration',
-              'client_kwargs': {
-                  'scope': 'openid email profile'
-              }
-          }
+        'name': 'SSO',
+        'icon': 'fa-user',
+        'token_key': 'access_token',
+        'remote_app': {
+            'client_id': '${superset_client_id}',
+            'client_secret': os.getenv("SDE_CLIENT_SECRET"),
+            'server_metadata_url': 'https://login.microsoftonline.com/${azure_tenant_id}/v2.0/.well-known/openid-configuration',
+            'client_kwargs': {
+              'scope': 'openid email profile'
+            }
+        }
       }
     ]
 
