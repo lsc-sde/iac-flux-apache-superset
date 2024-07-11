@@ -39,7 +39,8 @@ configOverrides:
             'client_secret': os.getenv("SDE_CLIENT_SECRET"),
             'server_metadata_url': 'https://login.microsoftonline.com/${azure_tenant_id}/v2.0/.well-known/openid-configuration',
             'client_kwargs': {
-              'scope': 'openid email profile'
+              "scope": "User.read name preferred_username email profile upn groups",
+              "resource": "RESOURCE_ID"
             }
         }
       }
