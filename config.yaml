@@ -31,20 +31,32 @@ configOverrides:
     AUTH_TYPE = AUTH_OAUTH
     OAUTH_PROVIDERS = [
       {
-        'name': 'SSO',
-        'icon': 'fa-user',
-        'token_key': 'access_token',
-        'remote_app': {
-            'client_id': '${superset_client_id}',
-            'client_secret': os.getenv("SDE_CLIENT_SECRET"),
-            'server_metadata_url': 'https://login.microsoftonline.com/${azure_tenant_id}/v2.0/.well-known/openid-configuration',
-            'client_kwargs': {
-              "scope": "User.read name preferred_username email profile upn groups",
-              "resource": "RESOURCE_ID"
-            }
-        }
-      }
+        "name": "azure", # Must be azure as there are specific implementations in authlib for azure which are triggered by the name
+        "icon": "fa-windows",
+        "token_key": "access_token",
+        "remote_app": {
+          "client_id": "${superset_client_id}",
+          "client_secret": os.getenv("SDE_CLIENT_SECRET"),
+          "api_base_url": "https://login.microsoftonline.com/${azure_tenant_id}/oauth2",
+          "client_kwargs": {
+              "scope": "User.read name preferred_username email profile upn",
+              "resource": "${superset_client_id}",
+              # Optionally enforce signature JWT verification
+              "verify_signature": False
+          },
+          "request_token_url": None,
+          "access_token_url": "https://login.microsoftonline.com/${azure_tenant_id}/oauth2/token",
+          "authorize_url": "https://login.microsoftonline.com/${azure_tenant_id}/oauth2/authorize",
+        },
+      },
     ]
+
+    
+    # Will allow user self registration, allowing to create Flask users from Authorized User
+    AUTH_USER_REGISTRATION = True
+
+    # The default user self registration role
+    AUTH_USER_REGISTRATION_ROLE = "Public"
 
 ingress:
   enabled: true
