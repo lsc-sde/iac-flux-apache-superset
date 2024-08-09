@@ -1,3 +1,9 @@
+secretEnv:
+  create: false
+
+postgresql:
+  enabled: false
+
 postgresql:
   postgresqlPassword: "R3s3tM3N0w!"
 
